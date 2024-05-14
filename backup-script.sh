@@ -1,5 +1,5 @@
 #!/bin/bash
-#simple backup script from sysahelper
+#simple network conf backup script from sysahelper
 
 echo "Start backup!"
 
