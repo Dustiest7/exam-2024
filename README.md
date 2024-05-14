@@ -1,4 +1,4 @@
-:flag_ru: Russian qualifying exam in network administration.
+Russian qualifying exam in network administration.
 
 Links to solved demo exam 2024.
 
