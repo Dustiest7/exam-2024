@@ -1,0 +1,11 @@
+$TTL	1D
+@	IN	SOA	hq.work. root.hq.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	hq.work.
+62	IN	PTR	hq-r.hq.work.
+1	IN	PTR	hq-srv.hq.work.

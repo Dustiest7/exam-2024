@@ -1,0 +1,12 @@
+$TTL	1D
+@	IN	SOA	branch.work. root.branch.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	branch.work.
+	IN	A	127.0.0.0
+br-r    IN      A       192.168.200.14
+br-srv  IN      A       192.168.200.1

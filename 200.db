@@ -1,0 +1,11 @@
+$TTL	1D
+@	IN	SOA	branch.work. root.branch.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	branch.work.
+14	IN	PTR	br-r.branch.work.
+
