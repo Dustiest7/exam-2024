@@ -802,19 +802,23 @@ systemctl enable --now nftables
   nft add rule inet nat postrouting ip saddr 192.168.200.0/28 oifname 'ens33' counter masquerade
   ```
 
- **На `HQ-R` | Отправляем результат команды `nft list ruleset` - в файл `/etc/nftables/nftables.nft`**
-    ```
-    nft list ruleset | tee -a /etc/nftables/nftables.nft
-    ```
+ **На `HQ-R` Отправляем результат команды `nft list ruleset` - в файл `/etc/nftables/nftables.nft`**
+ 
+   ```
+   nft list ruleset | tee -a /etc/nftables/nftables.nft
+   ```
+    
   **Перезапускаем `nftables` и проверяем наличие правил:**
     ```
     systemctl restart nftables
     ```
 
-   **На `BR-R` | Отправляем результат команды `nft list ruleset` - в файл `/etc/sysconfig/nftables.conf`**
-    ```
-    nft list ruleset > /etc/sysconfig/nftables.conf
-    ```
+   **На `BR-R` Отправляем результат команды `nft list ruleset` - в файл `/etc/sysconfig/nftables.conf`**
+   
+  ```  
+  nft list ruleset > /etc/sysconfig/nftables.conf
+  ``` 
+    
   **Перезапускаем `nftables` и проверяем наличие правил:**
     ```
     systemctl restart nftables
@@ -857,12 +861,12 @@ echo name_servers=127.0.0.1 >> /etc/resolvconf.conf
 resolvconf -u 
 ```
 
-**В конфигурационном файле `/etc/bind/local.conf` описываем необходимые зоны согласно требованию задания:
+**В конфигурационном файле `/etc/bind/local.conf` описываем необходимые зоны согласно требованию задания:**
 
-- `hq.work` - зона прямого просмотра;
-- `branch.work` - зона прямого просмотра;
-- `100.168.192.in-addr.arpa` - зона обратного просмотра;
-- `200.168.192.in-addr.arpa` - зона обратного просмотра;
+- **`hq.work` - зона прямого просмотра;**
+- **`branch.work` - зона прямого просмотра;**
+- **`100.168.192.in-addr.arpa` - зона обратного просмотра;**
+- **`200.168.192.in-addr.arpa` - зона обратного просмотра;**
     
   `vim /etc/bind/local.conf`
 
@@ -897,7 +901,97 @@ include "/etc/bind/rfc1912.conf";
 
 ```
 
+**Правим файл зоны прямого просмотра для `hq.work`:**
+
+`vim /etc/bind/zone/hq.db`
+
+```
+$TTL	1D
+@	IN	SOA	hq.work. root.hq.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	hq.work.
+	IN	A	127.0.0.0
+hq-r    IN      A       192.168.100.62
+hq-srv  IN      A       192.168.100.1
+```
+
+**Правим файл зоны прямого просмотра для `branch.work`:**
+
+`vim /etc/bind/zone/branch.db`
+
+```
+$TTL	1D
+@	IN	SOA	branch.work. root.branch.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	branch.work.
+	IN	A	127.0.0.0
+br-r    IN      A       192.168.200.14
+br-srv  IN      A       192.168.200.1
+```
+
+**Правим файл зоны обратного просмотра для `hq.work`  - `100.db`:**
+
+`vim /etc/bind/zone/100.db`
+
+```
+$TTL	1D
+@	IN	SOA	hq.work. root.hq.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	hq.work.
+62	IN	PTR	hq-r.hq.work.
+1	IN	PTR	hq-srv.hq.work.
+```
+
+**Правим файл зоны обратного просмотра для `branch.work`  - `200.db`:**
+
+`vim /etc/bind/zone/200.db`
+
+```
+$TTL	1D
+@	IN	SOA	branch.work. root.branch.work. (
+				2024021400	; serial
+				12H		; refresh
+				1H		; retry
+				1W		; expire
+				1H		; ncache
+			)
+	IN	NS	branch.work.
+14	IN	PTR	br-r.branch.work.
+```
+**Проверить файлы зон можно утилитой `named-checkconf`**
+
+```
+named-checkconf -z
+```
+> [!IMPORTANT]
+> **Задаём необходимые права:**
+>
+> ```
+> chown root:named /etc/bind/zone/{hq,branch,100,200}.db
+> ```
+
+**Перезапускаем службу `bind`**
+
+```
+systemctl restart bind
+```
 
 
-  
-    
+
+
+
