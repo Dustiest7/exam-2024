@@ -50,7 +50,7 @@ ___
 **Cоздаём для каждого интерфейса директорию по пути `/etc/net/ifaces/`:**
 
 ```
- mkdir /etc/net/ifaces/ens3{4,5}
+ mkdir /etc/net/ifaces/ens3{5,6}
 ```
 **Включаем IPv6**
 
