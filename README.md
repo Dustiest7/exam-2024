@@ -318,6 +318,14 @@ systemctl restart network
 modprobe gre
 
 ```
+
+> [!WARNING]
+> **Если `modprode gre` не работает, то прописываем:**
+```
+/sbin/modprobe gre
+
+```
+
 > [!TIP]
 > **Если пинги не проходят по туннелю, то можно прописать дополнительный маршрут в `ipv4route`, интерфейса `tun1`**
 ```
