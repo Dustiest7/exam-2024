@@ -16,6 +16,8 @@ ___
 
 - [Drawio](https://www.drawio.com/)
 
+- [Alt for D](https://github.com/NyashMan/DEMO2024)
+
 ___
 
 # **Первый модуль. Базовая настройка устройств.**
