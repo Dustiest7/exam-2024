@@ -16,6 +16,8 @@ ___
 
 - [Alt for D](https://github.com/NyashMan/DEMO2024)
 
+- [Скрипты](https://github.com/sysadmi8812/exa2k24/tree/main/scripts)
+
 ___
 
 # **Первый модуль. Базовая настройка устройств.**
