@@ -18,6 +18,8 @@ ___
 
 - [Скрипты](https://github.com/sysadmi8812/exa2k24/tree/main/scripts)
 
+- [Ещё Скрипты](https://foxascii.tilda.ws/page50725709.html)
+
 ___
 
 # **Первый модуль. Базовая настройка устройств.**
