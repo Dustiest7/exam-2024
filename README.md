@@ -647,16 +647,16 @@ echo "Done!"
 `tar -tf /opt/backup/имя_архива | less`
 
 > [!NOTE]
-> **Таким образом, скрипт записал в архив всё содерджиимое директории `/etc`**
+> **Таким образом, скрипт записал в архив всё содерджимое директории `/etc`**
 
 ___
 
 # **Первый модуль. Настройка подключения по SSH.**
 ## **HQ-SRV:**
-**Меняем стандартный порт ssh (22) на 2222 согласно заданию:**
+**Меняем стандартный порт ssh (22) на 2020 согласно заданию:**
 
 ```
- sed -i "s/#Port 22/Port 2222/g" /etc/openssh/sshd_config
+ sed -i "s/#Port 22/Port 2020/g" /etc/openssh/sshd_config
 ```
 
 **Перезапускаем службу `sshd`:**
@@ -699,11 +699,11 @@ ___
 **Добавим необходимое правило для проброса портов в цепочку `prerouting` таблицы `nat` семейства `inet`:**
 
 ```
- nft add rule inet nat prerouting ip daddr 11.11.11.11 tcp dport 22 dnat to 192.168.100.1:2222
+ nft add rule inet nat prerouting ip daddr 11.11.11.11 tcp dport 22 dnat to 192.168.100.1:2020
 ```
 
 ```
- nft add rule inet nat prerouting ip6 daddr 2001:11::11 tcp dport 22 dnat to [2000:100::1]:2222
+ nft add rule inet nat prerouting ip6 daddr 2001:11::11 tcp dport 22 dnat to [2000:100::1]:2020
 ```
 
 **Просмотр текущих правил:**
@@ -750,24 +750,24 @@ apt-get update && apt-get install -y nftables
 ```
 systemctl enable --now nftables
 ```
-**Добавляем правила, запрещающие доступ по `ssh` (порт 2222) с `CLI`, как с временного подключения так и с глобального, как для IPv4 так и для IPv6:**
+**Добавляем правила, запрещающие доступ по `ssh` (порт 2020) с `CLI`, как с временного подключения так и с глобального, как для IPv4 так и для IPv6:**
 - **для IPv4**
 
   ```
-  nft add rule inet filter input ip saddr 33.33.33.33 tcp dport 2222 counter drop
+  nft add rule inet filter input ip saddr 33.33.33.33 tcp dport 2020 counter drop
   ```
 
   ```
-  nft add rule inet filter input ip saddr 44.44.44.0/24 tcp dport 2222 counter drop
+  nft add rule inet filter input ip saddr 44.44.44.0/24 tcp dport 2020 counter drop
   ```
 
   - **для IPv6**
  
     ```
-    nft add rule inet filter input ip6 saddr 2001:33::/64 tcp dport 2222 counter drop
+    nft add rule inet filter input ip6 saddr 2001:33::/64 tcp dport 2020 counter drop
     ```
     ```
-    nft add rule inet filter input ip6 saddr 2001:44::/64 tcp dport 2222 counter drop
+    nft add rule inet filter input ip6 saddr 2001:44::/64 tcp dport 2020 counter drop
     ```
 
   **Смотрим правила с помошью команды `nft list ruleset`**<br/>
@@ -1109,6 +1109,13 @@ ___
 ./hq-r-6.sh
 ./br-r-4.sh
 ```
+
+**Просмотрим содержание архива:**
+
+`tar -tf /opt/backup/имя_архива | less`
+
+> [!NOTE]
+> **Таким образом, скрипт записал в архив всё содерджимое директории `/etc`**
 ___
 
  ## **Смена SSH-порта на HQ-SRV**
